@@ -1,0 +1,14 @@
+{
+	"aliases": {
+		"all": [
+			"gitignore",
+			"husky",
+			"commitizen",
+			"commitlint",
+			"prettier",
+			"airbnb-base",
+			"lint-staged",
+			"standard-version"
+		]
+	}
+}

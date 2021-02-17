@@ -1,6 +1,7 @@
 {
   "extends": [
+    "eslint:recommended",
     "airbnb-base",
-    "eslint:recommended"
+    "prettier"
   ]
 }

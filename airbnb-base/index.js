@@ -12,7 +12,8 @@ const {
 const getConfigName = (configName, scope, prefix) => {
   if (!scope && !configName.startsWith(prefix)) {
     return `${prefix}-${configName}`;
-  } if (scope && !configName) {
+  }
+  if (scope && !configName) {
     return prefix;
   }
   return configName;
@@ -171,7 +172,7 @@ module.exports = function task({ eslintExtends }) {
   lines('.gitignore').add(gitIgnores).save();
 
   // Keep custom extensions
-  const lintScript = pkg.getScript('lint', 'eslint') || pkg.getScript('test', 'eslint');
+  const lintScript =		pkg.getScript('lint', 'eslint') || pkg.getScript('test', 'eslint');
   if (lintScript) {
     const lintExts = getExtsFromCommand(lintScript, 'ext');
     if (lintExts && lintExts.toString() !== 'js') {
@@ -181,13 +182,13 @@ module.exports = function task({ eslintExtends }) {
   }
 
   pkg
-    // Remove existing JS linters
+  // Remove existing JS linters
     .removeScript(/^(lint:js|eslint|jshint|jslint)$/)
     .removeScript('test', / (lint|lint:js|eslint|jshint|jslint)( |$)/) // npm run jest && npm run lint
     .removeScript('test', /\beslint|jshint|jslint\b/) // jest && eslint
-    // Add lint script
+  // Add lint script
     .setScript('lint', `eslint . --cache --fix${exts}`)
-    // Add pretest script
+  // Add pretest script
     .prependScript('pretest', 'npm run lint')
     .save();
 

@@ -1,3 +1,11 @@
+# [2.2.0](https://github.com/dailycode365/mrm-preset/compare/v2.1.0...v2.2.0) (2021-02-17)
+
+
+### Features
+
+* 添加eslint-plugin-import 依赖 ([bde2388](https://github.com/dailycode365/mrm-preset/commit/bde2388625f4b755399fa360e33fbf79ed500b4d))
+* 添加semantic-release ([436b246](https://github.com/dailycode365/mrm-preset/commit/436b246a2c3e0681d29fdd0f714bb837ce128eeb))
+
 # [2.1.0](https://github.com/dailycode365/mrm-preset/compare/v2.0.0...v2.1.0) (2021-02-17)
 
 

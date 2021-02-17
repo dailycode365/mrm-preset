@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/dailycode365/mrm-preset/compare/v2.2.0...v2.3.0) (2021-02-17)
+
+
+### Features
+
+* 添加.releaserc.json的配置 ([376658d](https://github.com/dailycode365/mrm-preset/commit/376658d64d5cd11de4e9c9ef7b0d218a7928ac47))
+
 # [2.2.0](https://github.com/dailycode365/mrm-preset/compare/v2.1.0...v2.2.0) (2021-02-17)
 
 

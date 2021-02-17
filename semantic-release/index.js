@@ -1,97 +1,121 @@
-const packageRepoUrl = require('package-repo-url');
+const packageRepoUrl = require("package-repo-url");
 const {
-  packageJson, yaml, markdown, uninstall, install,
-} = require('mrm-core');
+	packageJson,
+	yaml,
+	markdown,
+	uninstall,
+	install,
+	json,
+} = require("mrm-core");
 
 module.exports = function task({ workflowFile, readmeFile, devDependencies }) {
-  // Create workflow file (no update)
-  const workflowYml = yaml(workflowFile);
-  if (!workflowYml.exists()) {
-    workflowYml
-      .merge({
-        name: 'Semantic Release',
-        on: {
-          push: {
-            branches: ['master'],
-          },
-        },
-        jobs: {
-          release: {
-            name: 'Release',
-            'runs-on': 'ubuntu-latest',
-            steps: [
-              {
-                uses: 'actions/checkout@v2',
-              },
-              {
-                uses: 'actions/setup-node@v1',
-                with: {
-                  'node-version': 12,
-                },
-              },
-              {
-                run: 'npm ci',
-              },
-              {
-                env: {
-                  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
-                  NPM_TOKEN: '${{ secrets.NPM_TOKEN }}',
-                },
-                run: 'npx semantic-release',
-              },
-            ],
-          },
-        },
-      })
-      .save();
-  }
+	// Create workflow file (no update)
+	const workflowYml = yaml(workflowFile);
+	if (!workflowYml.exists()) {
+		workflowYml
+			.merge({
+				name: "Semantic Release",
+				on: {
+					push: {
+						branches: ["master"],
+					},
+				},
+				jobs: {
+					release: {
+						name: "Release",
+						"runs-on": "ubuntu-latest",
+						steps: [
+							{
+								uses: "actions/checkout@v2",
+							},
+							{
+								uses: "actions/setup-node@v1",
+								with: {
+									"node-version": 12,
+								},
+							},
+							{
+								run: "npm ci",
+							},
+							{
+								env: {
+									GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}",
+									NPM_TOKEN: "${{ secrets.NPM_TOKEN }}",
+								},
+								run: "npx semantic-release",
+							},
+						],
+					},
+				},
+			})
+			.save();
+	}
+	const releasercJson = json(".releaserc.json").save();
+	releasercJson.merge({
+		branch: "master",
+		plugins: [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator",
+			"@semantic-release/changelog",
+			"@semantic-release/npm",
+			[
+				"@semantic-release/git",
+				{
+					assets: ["package.json", "CHANGELOG.md"],
+					message:
+						"chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+				},
+			],
+			"@semantic-release/github",
+		],
+	});
 
-  // package.json
-  const pkg = packageJson();
+	// package.json
+	const pkg = packageJson();
 
-  // Remove semantic-release script
-  pkg.removeScript('semantic-release');
-  pkg.removeScript('travis-deploy-once');
+	// Remove semantic-release script
+	pkg.removeScript("semantic-release");
+	pkg.removeScript("travis-deploy-once");
 
-  // Remove custom semantic-release config
-  pkg.unset('release');
+	// Remove custom semantic-release config
+	pkg.unset("release");
 
-  // Save package.json
-  pkg.save();
+	// Save package.json
+	pkg.save();
 
-  // Remove semantic-release from project dependencies
-  uninstall(['semantic-release', 'travis-deploy-once']);
+	// Remove semantic-release from project dependencies
+	uninstall(["semantic-release", "travis-deploy-once"]);
 
-  // Remove semantic-release runner from commands list on .travis.yml
-  const travisYml = yaml('.travis.yml');
-  if (travisYml.exists()) {
-    const afterSuccess = travisYml.get('after_success');
-    if (Array.isArray(afterSuccess)) {
-      travisYml.set(
-        'after_success',
-        afterSuccess.filter((cmd) => !cmd.includes('semantic-release')),
-      );
-    }
-    travisYml.save();
-  }
+	// Remove semantic-release runner from commands list on .travis.yml
+	const travisYml = yaml(".travis.yml");
+	if (travisYml.exists()) {
+		const afterSuccess = travisYml.get("after_success");
+		if (Array.isArray(afterSuccess)) {
+			travisYml.set(
+				"after_success",
+				afterSuccess.filter((cmd) => !cmd.includes("semantic-release"))
+			);
+		}
+		travisYml.save();
+	}
 
-  // Add npm package version badge to Readme.md
-  const packageName = pkg.get('name');
-  const readme = markdown(readmeFile);
-  if (readme.exists()) {
-    readme
-      .addBadge(
-        `https://img.shields.io/npm/v/${packageName}.svg`,
-        `https://www.npmjs.com/package/${packageName}`,
-        'npm',
-      )
-      .save();
-  }
+	// Add npm package version badge to Readme.md
+	const packageName = pkg.get("name");
+	const readme = markdown(readmeFile);
+	if (readme.exists()) {
+		readme
+			.addBadge(
+				`https://img.shields.io/npm/v/${packageName}.svg`,
+				`https://www.npmjs.com/package/${packageName}`,
+				"npm"
+			)
+			.save();
+	}
 
-  install(devDependencies);
+	install(devDependencies);
 
-  console.log(
-    `Please add secrets on GitHub:
+	console.log(
+		`Please add secrets on GitHub:
 
 1. Generate npm token:
 
@@ -117,24 +141,24 @@ module.exports = function task({ workflowFile, readmeFile, devDependencies }) {
    GH_TOKEN = <Generated GitHub token>
 
    More info: https://github.com/semantic-release/semantic-release/blob/beta/docs/recipes/github-actions.md
-`,
-  );
+`
+	);
 };
 
-module.exports.description = 'Adds semantic-release';
+module.exports.description = "Adds semantic-release";
 module.exports.parameters = {
-  workflowFile: {
-    type: 'input',
-    message: 'Enter location of GitHub Actions workflow file',
-    default: '.github/workflows/release.yml',
-  },
-  readmeFile: {
-    type: 'input',
-    message: 'Enter filename for readme',
-    default: 'Readme.md',
-  },
-  devDependencies: {
-    type: 'config',
-    default: ['@semantic-release/changelog', '@semantic-release/git'],
-  },
+	workflowFile: {
+		type: "input",
+		message: "Enter location of GitHub Actions workflow file",
+		default: ".github/workflows/release.yml",
+	},
+	readmeFile: {
+		type: "input",
+		message: "Enter filename for readme",
+		default: "Readme.md",
+	},
+	devDependencies: {
+		type: "config",
+		default: ["@semantic-release/changelog", "@semantic-release/git"],
+	},
 };

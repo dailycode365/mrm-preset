@@ -24,5 +24,3 @@ module.exports.parameters = {
 		default: ["commitizen", "cz-conventional-changelog"],
 	},
 };
-
-module.exports = require("mrm-task-readme");

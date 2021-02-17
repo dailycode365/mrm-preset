@@ -1,6 +1,6 @@
 # @zpf518518/mrm-preset
 
-[![Build Status](https://travis-ci.org/dailycode365/mrm-preset/@zpf518518/mrm-preset.svg)](https://travis-ci.org/dailycode365/mrm-preset/@zpf518518/mrm-preset)
+[![Build Status](https://travis-ci.org/dailycode365/mrm-preset/@zpf518518/mrm-preset.svg)](https://travis-ci.org/dailycode365/mrm-preset/@zpf518518/mrm-preset) [![npm](https://img.shields.io/npm/v/@zpf518518/mrm-preset.svg)](https://www.npmjs.com/package/@zpf518518/mrm-preset)
 
 ...
 

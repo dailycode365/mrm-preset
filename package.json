@@ -11,21 +11,20 @@
 		"preset"
 	],
 	"author": "zpf518518",
-	"license": "ISC",
+	"license": "MIT",
 	"publishConfig": {
 		"access": "public"
 	},
 	"dependencies": {
-		"lodash": "^4.17.20",
 		"mrm-core": "^4.6.0"
 	},
 	"devDependencies": {},
 	"repository": {
 		"type": "git",
-		"url": "git+ssh://git@gitlab.com/zpffork/mrm-preset.git"
+		"url": "git+https://github.com/dailycode365/mrm-preset.git"
 	},
 	"bugs": {
-		"url": "https://gitlab.com/zpffork/mrm-preset/issues"
+		"url": "https://github.com/dailycode365/mrm-preset/issues"
 	},
-	"homepage": "https://gitlab.com/zpffork/mrm-preset#readme"
+	"homepage": "https://github.com/dailycode365/mrm-preset#readme"
 }

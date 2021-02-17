@@ -1,1 +1,1 @@
-module.exports = require("mrm-task-prettier");
+module.exports = require('mrm-task-prettier');

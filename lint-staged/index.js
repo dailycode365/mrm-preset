@@ -1,10 +1,10 @@
 // @ts-check
-const { packageJson, install, getExtsFromCommand } = require("mrm-core");
-const { castArray } = require("lodash");
+const { packageJson, install, getExtsFromCommand } = require('mrm-core');
+const { castArray } = require('lodash');
 
 const packages = {
-  "lint-staged": ">=10",
-  husky: ">=4",
+  'lint-staged': '>=10',
+  husky: '>=4',
 };
 
 /**
@@ -20,36 +20,35 @@ const packages = {
 const defaultRules = [
   // ESLint
   {
-    name: "eslint",
-    condition: (pkg) => !!pkg.get("devDependencies.eslint"),
-    extensions: ["js", "ts"],
-    script: "lint",
-    param: "ext",
-    command: "eslint --cache --fix",
+    name: 'eslint',
+    condition: (pkg) => !!pkg.get('devDependencies.eslint'),
+    extensions: ['js', 'ts'],
+    script: 'lint',
+    param: 'ext',
+    command: 'eslint --cache --fix',
   },
   // Stylelint
   {
-    name: "stylelint",
-    condition: (pkg) => !!pkg.get("devDependencies.stylelint"),
-    extensions: ["css"],
-    script: "lint:css",
-    command: "stylelint --fix",
+    name: 'stylelint',
+    condition: (pkg) => !!pkg.get('devDependencies.stylelint'),
+    extensions: ['css'],
+    script: 'lint:css',
+    command: 'stylelint --fix',
   },
   // Prettier
   {
-    name: "prettier",
-    condition: (pkg) =>
-      !!pkg.get("devDependencies.prettier") &&
-      !pkg.get("devDependencies.eslint-plugin-prettier"),
-    extensions: ["js", "css", "md"],
-    script: "format",
-    command: "prettier --write",
+    name: 'prettier',
+    condition: (pkg) => !!pkg.get('devDependencies.prettier')
+      && !pkg.get('devDependencies.eslint-plugin-prettier'),
+    extensions: ['js', 'css', 'md'],
+    script: 'format',
+    command: 'prettier --write',
   },
   {
-    name: "prettier-ts",
-    condition: (pkg) => !!pkg.get("devDependencies.prettier"),
-    extensions: ["js", "ts", "css", "md"],
-    command: "prettier --write",
+    name: 'prettier-ts',
+    condition: (pkg) => !!pkg.get('devDependencies.prettier'),
+    extensions: ['js', 'ts', 'css', 'md'],
+    command: 'prettier --write',
   },
 ];
 
@@ -101,7 +100,7 @@ function extsToGlob(exts) {
  * @param {string} command
  */
 function getRuleRegExp(command) {
-  return new RegExp(`\\b${command.split(" ").shift()}\\b`);
+  return new RegExp(`\\b${command.split(' ').shift()}\\b`);
 }
 
 /**
@@ -118,15 +117,13 @@ function isCommandBelongsToRule(ruleCommands, command) {
 module.exports = function task({ lintStagedRules }) {
   const pkg = packageJson();
   const allRules = mergeRules(defaultRules, lintStagedRules);
-  const existingRules = Object.entries(pkg.get("lint-staged", {}));
+  const existingRules = Object.entries(pkg.get('lint-staged', {}));
 
   // Remove exising rules that run any of default commands
   const commandsToRemove = allRules.map((rule) => rule.command);
-  const existingRulesToKeep = existingRules.filter(([, ruleCommands]) =>
-    commandsToRemove
-      .map((command) => isCommandBelongsToRule(ruleCommands, command))
-      .every((x) => x === false)
-  );
+  const existingRulesToKeep = existingRules.filter(([, ruleCommands]) => commandsToRemove
+    .map((command) => isCommandBelongsToRule(ruleCommands, command))
+    .every((x) => x === false));
 
   // New rules
   const rulesToAdd = allRules.map(
@@ -142,12 +139,11 @@ module.exports = function task({ lintStagedRules }) {
         return null;
       }
 
-      const extensions =
-        getExtsFromCommand(pkg.getScript(script), param) || defaultExtensions;
+      const extensions = getExtsFromCommand(pkg.getScript(script), param) || defaultExtensions;
       const pattern = extsToGlob(extensions);
 
       return [pattern, command];
-    }
+    },
   );
 
   // Merge existing and new rules, clean up
@@ -168,8 +164,8 @@ module.exports = function task({ lintStagedRules }) {
     const names = defaultRules.map((rule) => rule.name);
     console.log(
       `\nCannot add lint-staged: only ${names.join(
-        ", "
-      )} or custom rules are supported.`
+        ', ',
+      )} or custom rules are supported.`,
     );
     return;
   }
@@ -177,15 +173,15 @@ module.exports = function task({ lintStagedRules }) {
   // package.json
   pkg
     // Remove husky 0.14 config
-    .unset("scripts.precommit")
+    .unset('scripts.precommit')
     // Add new config
     .merge({
       husky: {
         hooks: {
-          "pre-commit": "lint-staged",
+          'pre-commit': 'lint-staged',
         },
       },
-      "lint-staged": rules,
+      'lint-staged': rules,
     })
     .save();
 
@@ -193,10 +189,10 @@ module.exports = function task({ lintStagedRules }) {
   install(packages);
 };
 
-module.exports.description = "Adds lint-staged";
+module.exports.description = 'Adds lint-staged';
 module.exports.parameters = {
   lintStagedRules: {
-    type: "config",
+    type: 'config',
     default: {},
   },
 };

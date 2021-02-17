@@ -1,9 +1,9 @@
-const { file, packageJson } = require("mrm-core");
+const { file, packageJson } = require('mrm-core');
 
 function hasPkgJson() {
-	return file("package.json").exists();
+  return file('package.json').exists();
 }
 
 module.exports = {
-	hasPkgJson,
+  hasPkgJson,
 };

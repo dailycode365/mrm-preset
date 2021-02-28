@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.4.0](https://github.com/dailycode365/mrm-preset/compare/v2.3.0...v2.4.0) (2021-02-28)
+
+
+### Bug Fixes
+
+* 添加eslint对应配置所需要的库 ([850f68f](https://github.com/dailycode365/mrm-preset/commit/850f68fb23dcb9bda2aba1a0ff312dd561eef29c))
+
 # [2.3.0](https://github.com/dailycode365/mrm-preset/compare/v2.2.0...v2.3.0) (2021-02-17)
 
 

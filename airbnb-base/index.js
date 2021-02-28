@@ -49,6 +49,7 @@ module.exports = function task({ eslintExtends }) {
 		'eslint',
 		'eslint-config-airbnb-base',
 		'eslint-config-prettier',
+		'typescript',
 	];
 	const packagesToRemove = ['jslint', 'jshint'];
 	const ctCfgFileName = path.join(__dirname, 'config.json');
@@ -130,7 +131,6 @@ module.exports = function task({ eslintExtends }) {
 			extends: [
 				...(Array.isArray(extensions) ? extensions : [extensions]),
 				'prettier',
-				'prettier/@typescript-eslint',
 			],
 		});
 	}

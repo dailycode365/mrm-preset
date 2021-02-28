@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/dailycode365/mrm-preset/compare/v2.4.0...v2.5.0) (2021-02-28)
+
+
+### Features
+
+* 添加typescript 库 ([6da8e45](https://github.com/dailycode365/mrm-preset/commit/6da8e457fda69a9017b51aaa5e342cc991a17870))
+
 ## [2.4.0](https://github.com/dailycode365/mrm-preset/compare/v2.3.0...v2.4.0) (2021-02-28)
 
 
